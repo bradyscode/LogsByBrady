@@ -11,7 +11,7 @@ namespace LogsByBrady
 {
     public static class BradysLoggerBuilderExtension
     {
-        public static void UserBradysAuthenticationService(
+        public static void UseBradysLoggingService(
 this IApplicationBuilder app,
 string loggerFilePath)
 => app.UserBradysLoggerService(opts => opts.Path = loggerFilePath);
@@ -25,7 +25,7 @@ string loggerFilePath)
             var opts = app.ApplicationServices.GetService<IOptions<BradysLoggerSettings>>()?.Value ?? new BradysLoggerSettings();
 
 
-            DependencyInjection.bls = opts;
+            DependencyInjection._bls = opts;
 
 
 

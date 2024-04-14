@@ -11,7 +11,7 @@ public class Program
         Console.WriteLine(fileLogger.Info("Test Info"));
         Console.WriteLine(fileLogger.Trace("Test Trace"));
         Console.WriteLine(fileLogger.Success("Test Success"));
-        Console.WriteLine(fileLogger.Notice("Test Notice"));
+        Console.WriteLine(fileLogger.Notice("Test Notice {Test}"));
         Console.WriteLine(fileLogger);
     }
 }

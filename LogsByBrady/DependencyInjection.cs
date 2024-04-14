@@ -1,30 +1,26 @@
 ﻿using logs_by_brady;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LogsByBrady
 {
     public static class DependencyInjection
     {
-        internal static BradysLoggerSettings bls;
+        internal static BradysLoggerSettings _bls;
 
-        public static IServiceCollection AddBradysAuthentication(this IServiceCollection services, Action<BradysLoggerSettings> setupAction)
+        public static IServiceCollection AddBradysLogger(this IServiceCollection services, Action<BradysLoggerSettings> bls)
         {
-            //add all the interfaces and implementations
-            services.AddScoped<IBradysLogger, FileLogging>();
-
-            services.Configure(setupAction);
-
+            BradysLoggerSettings blsValues = new BradysLoggerSettings();
+            bls.Invoke(blsValues);
+            services.AddScoped<IBradysLogger, FileLogging>(); // register deps
+            services.Configure(bls);
+            _bls = blsValues;
             return services;
         }
 
     }
-    public class BradysLoggerSettings
+    public class BradysLoggerSettings 
     {
         public string Path { get; set; }
+
     }
 }
