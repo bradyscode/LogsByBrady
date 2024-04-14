@@ -13,8 +13,8 @@ namespace LogsByBrady
     {
         public static void UserBradysAuthenticationService(
 this IApplicationBuilder app,
-string issuer)
-=> app.UserBradysLoggerService(opts => opts.Issuer = issuer);
+string loggerFilePath)
+=> app.UserBradysLoggerService(opts => opts.Path = loggerFilePath);
 
 
         public static void UserBradysLoggerService(
