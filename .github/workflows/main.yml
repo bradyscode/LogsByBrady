@@ -1,0 +1,30 @@
+name: NuGet Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x' # Change to your desired .NET version
+
+      - name: Build and Pack
+        run: dotnet build YourProject.csproj --configuration Release && dotnet pack YourProject.csproj --configuration Release --output ./artifacts
+
+      - name: Publish to NuGet
+        uses: nuget/nuget@v1
+        with:
+          command: push
+          packages: ./artifacts/*.nupkg
+          nuget-api-key: ${{ secrets.NUGET_API_KEY }}
+          source: https://api.nuget.org/v3/index.json
