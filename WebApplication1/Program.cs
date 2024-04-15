@@ -8,11 +8,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddBradysLogger(options =>
-{
-    options.Path = "C:/temp";
-    options.Format = BradysFormatProvider.Json;
-});
+builder.Services.AddBradysLogger().WithPath("C:/temp").UsingJsonFormat();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

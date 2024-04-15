@@ -9,25 +9,45 @@ namespace LogsByBrady
     {
         internal static BradysLoggerSettings _bls;
 
-        public static IServiceCollection AddBradysLogger(this IServiceCollection services, Action<BradysLoggerSettings> bls)
+        /// <summary>
+        /// Add the BradysLogger to the service collection.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddBradysLogger(this IServiceCollection services)
         {
-            BradysLoggerSettings blsValues = new BradysLoggerSettings();
-            bls.Invoke(blsValues);
-            services.AddScoped<IBradysLogger, FileLogging>(); // register deps
-            services.Configure(bls);
+            BradysLoggerSettings blsValues = new BradysLoggerSettings()
+            {
+                Format = BradysFormatProvider.Text,
+                Path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+            };
             _bls = blsValues;
+            services.AddScoped<IBradysLogger, FileLogging>(); // register deps
+            return services;
+        }
+        /// <summary>
+        /// Uses json format for log files.
+        /// </summary>
+        /// <param name="services"></param>
+        public static IServiceCollection UsingJsonFormat(this IServiceCollection services)
+        {
+            _bls.Format = BradysFormatProvider.Json;
+            return services;
+        }
+        /// <summary>
+        /// Set the relative path for storing log files.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="path">The relative path for storing log files</param>
+        public static IServiceCollection WithPath(this IServiceCollection services, string path)
+        {
+            _bls.Path = path;
             return services;
         }
 
-        internal static string? ToEnumMember<T>(this T value) where T : Enum
-        {
-            return typeof(T)
-                .GetTypeInfo()
-                .DeclaredMembers
-                .SingleOrDefault(x => x.Name == value.ToString())?
-                .GetCustomAttribute<EnumMemberAttribute>(false)?
-                .Value;
-        }
+
+
+
 
     }
     public class BradysLoggerSettings 

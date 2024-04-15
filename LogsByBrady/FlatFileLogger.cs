@@ -14,13 +14,17 @@ namespace logs_by_brady
         {
             if(bradysFormatProvider == BradysFormatProvider.Json)
             {
-                var options = new JsonSerializerOptions
+                var logModel = new LogModel
                 {
-                    WriteIndented = true,
-                    Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
-                    AllowTrailingCommas = true
+                    Message = message,
+                    LogLevel = logLevel.ToUpper()
                 };
-                return JsonSerializer.Serialize(new { DateTime.UtcNow, logLevel, message }, options);
+                var options = new JsonSerializerOptions()
+                {
+                    WriteIndented = true
+                };
+                var jsonString = JsonSerializer.Serialize(logModel, options);
+                return jsonString+",";
             }
             var returnMessage = $"[{logLevel.ToUpper()}] - [{DateTime.UtcNow}] : {message}";
             return returnMessage;
