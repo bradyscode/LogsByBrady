@@ -1,8 +1,10 @@
-﻿namespace logs_by_brady
+﻿using LogsByBrady;
+
+namespace logs_by_brady
 {
     public interface ILogger
     {
-        public string Message { get; set; }
-        string Log(string logLevel, string message);
+        string GenerateMessage(string logLevel, string message, BradysFormatProvider bradysFormatProvider);
+        Task Log(string message, string path);
     }
 }

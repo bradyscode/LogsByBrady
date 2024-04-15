@@ -11,6 +11,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddBradysLogger(options =>
 {
     options.Path = "C:/temp";
+    options.Format = BradysFormatProvider.Json;
 });
 var app = builder.Build();
 

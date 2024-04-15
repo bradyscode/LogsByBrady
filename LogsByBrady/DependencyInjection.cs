@@ -1,5 +1,7 @@
 ﻿using logs_by_brady;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace LogsByBrady
 {
@@ -17,10 +19,21 @@ namespace LogsByBrady
             return services;
         }
 
+        internal static string? ToEnumMember<T>(this T value) where T : Enum
+        {
+            return typeof(T)
+                .GetTypeInfo()
+                .DeclaredMembers
+                .SingleOrDefault(x => x.Name == value.ToString())?
+                .GetCustomAttribute<EnumMemberAttribute>(false)?
+                .Value;
+        }
+
     }
     public class BradysLoggerSettings 
     {
         public string Path { get; set; }
+        public BradysFormatProvider Format { get; set; } = BradysFormatProvider.Text;
 
     }
 }

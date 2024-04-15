@@ -22,7 +22,10 @@ namespace WebApplication1.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
-            _logger.Info("Test");
+            for(int i=0; i < 1000; i++)
+            {
+                _logger.Critical($"Test {i}");
+            }
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
