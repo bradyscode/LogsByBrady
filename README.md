@@ -2,7 +2,7 @@
 ### Preview
 LogsByBrady is a all-in-one logging framework that includes logging functionality for flat files in different formats. Future versions of LogsByBrady will include logging for other logging locations such as SQL Server.
 
-## DI
+## Dependency Injection (DI)
 ```cs
 builder.Services.AddBradysLogger()
 ```
