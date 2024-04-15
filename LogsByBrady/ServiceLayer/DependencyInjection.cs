@@ -37,6 +37,15 @@ namespace LogsByBrady
             return services;
         }
         /// <summary>
+        /// Uses json format for log files.
+        /// </summary>
+        /// <param name="services"></param>
+        public static IServiceCollection UsingTxtFormat(this IServiceCollection services)
+        {
+            _bls.Format = BradysFormatProvider.Text;
+            return services;
+        }
+        /// <summary>
         /// Set the relative path for storing log files.
         /// </summary>
         /// <param name="services"></param>
