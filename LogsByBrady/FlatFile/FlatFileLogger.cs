@@ -1,18 +1,20 @@
 ﻿using LogsByBrady;
-
+using LogsByBrady.Enums;
+using LogsByBrady.Interfaces;
+using LogsByBrady.Models;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace logs_by_brady
+namespace LogsByBrady.FlatFile
 {
     internal class FlatFileLogger : ILogger
     {
 
         public string GenerateMessage(string logLevel, string message, BradysFormatProvider bradysFormatProvider)
         {
-            if(bradysFormatProvider == BradysFormatProvider.Json)
+            if (bradysFormatProvider == BradysFormatProvider.Json)
             {
                 var logModel = new LogModel
                 {
@@ -24,7 +26,7 @@ namespace logs_by_brady
                     WriteIndented = true
                 };
                 var jsonString = JsonSerializer.Serialize(logModel, options);
-                return jsonString+",";
+                return jsonString + ",";
             }
             var returnMessage = $"[{logLevel.ToUpper()}] - [{DateTime.UtcNow}] : {message}";
             return returnMessage;

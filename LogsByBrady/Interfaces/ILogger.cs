@@ -1,6 +1,6 @@
-﻿using LogsByBrady;
+﻿using LogsByBrady.Enums;
 
-namespace logs_by_brady
+namespace LogsByBrady.Interfaces
 {
     public interface ILogger
     {

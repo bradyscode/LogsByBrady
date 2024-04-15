@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace LogsByBrady
+namespace LogsByBrady.Enums
 {
     public static class EnumExtensions
     {

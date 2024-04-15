@@ -1,4 +1,5 @@
-﻿using logs_by_brady;
+﻿using LogsByBrady.FlatFile;
+using LogsByBrady.Interfaces;
 public class Program
 {
     static void Main(string[] args)

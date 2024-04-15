@@ -1,4 +1,4 @@
-﻿namespace logs_by_brady
+﻿namespace LogsByBrady.Interfaces
 {
     public interface IBradysLogger
     {

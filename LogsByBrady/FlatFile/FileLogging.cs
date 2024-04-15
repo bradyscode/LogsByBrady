@@ -1,7 +1,8 @@
-﻿using LogsByBrady;
+﻿using LogsByBrady.Enums;
+using LogsByBrady.Interfaces;
 using System.Reflection;
 
-namespace logs_by_brady
+namespace LogsByBrady.FlatFile
 {
     public class FileLogging : IBradysLogger
     {
@@ -11,11 +12,11 @@ namespace logs_by_brady
         static string userPath = DependencyInjection._bls.Path ?? loggingDir;
         string path = Path.Combine(userPath, $"{Assembly.GetEntryAssembly()?.GetName().Name}-{DateTime.Now.ToString("yyyy-MM-dd")}.{format.ToEnumMember()}");
 
-        public FileLogging() 
+        public FileLogging()
         {
-            if(!File.Exists(path))
+            if (!File.Exists(path))
             {
-                if(!Directory.Exists(userPath))
+                if (!Directory.Exists(userPath))
                 {
                     Directory.CreateDirectory(userPath);
                 }

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace LogsByBrady
+namespace LogsByBrady.Enums
 {
     public enum BradysFormatProvider
     {

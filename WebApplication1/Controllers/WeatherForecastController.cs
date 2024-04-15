@@ -1,4 +1,4 @@
-using logs_by_brady;
+using LogsByBrady.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication1.Controllers

@@ -1,4 +1,6 @@
-﻿using logs_by_brady;
+﻿using LogsByBrady.Enums;
+using LogsByBrady.FlatFile;
+using LogsByBrady.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -50,7 +52,7 @@ namespace LogsByBrady
 
 
     }
-    public class BradysLoggerSettings 
+    public class BradysLoggerSettings
     {
         public string Path { get; set; }
         public BradysFormatProvider Format { get; set; } = BradysFormatProvider.Text;
