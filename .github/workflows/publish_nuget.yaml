@@ -19,7 +19,7 @@ jobs:
           dotnet-version: '8.0.0' # Change to your desired .NET version
 
       - name: Build and Pack
-        run: dotnet build YourProject.csproj --configuration Release && dotnet pack YourProject.csproj --configuration Release --output ./artifacts
+        run: dotnet build LogsByBrady.csproj --configuration Release && dotnet pack LogsByBrady.csproj --configuration Release --output ./artifacts
 
       - name: Publish to NuGet
         uses: nuget/nuget@v1
