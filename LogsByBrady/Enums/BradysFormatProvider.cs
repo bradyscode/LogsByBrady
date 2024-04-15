@@ -7,7 +7,8 @@ namespace LogsByBrady.Enums
         [EnumMember(Value = "txt")]
         Text,
         [EnumMember(Value = "json")]
-        Json
+        Json,
+        All
     }
 
 }

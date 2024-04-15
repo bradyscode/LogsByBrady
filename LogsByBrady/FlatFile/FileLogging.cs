@@ -10,79 +10,122 @@ namespace LogsByBrady.FlatFile
         ILogger logger = new FlatFileLogger();
         static BradysFormatProvider format = DependencyInjection._bls.Format;
         static string userPath = DependencyInjection._bls.Path ?? loggingDir;
-        string path = Path.Combine(userPath, $"{Assembly.GetEntryAssembly()?.GetName().Name}-{DateTime.Now.ToString("yyyy-MM-dd")}.{format.ToEnumMember()}");
+        List<string> paths = new List<string>();
 
         public FileLogging()
         {
-            if (!File.Exists(path))
+            if (format == BradysFormatProvider.All)
             {
-                if (!Directory.Exists(userPath))
+                foreach(var format in Enum.GetValues<BradysFormatProvider>())
                 {
-                    Directory.CreateDirectory(userPath);
+                    if(format!= BradysFormatProvider.All)
+                        paths.Add(Path.Combine(userPath, $"{Assembly.GetEntryAssembly()?.GetName().Name}-{DateTime.Now.ToString("yyyy-MM-dd")}.{format.ToEnumMember()}"));
                 }
-                File.Create(path).Close();
+            }
+            else
+            {
+                paths.Add(Path.Combine(userPath, $"{Assembly.GetEntryAssembly()?.GetName().Name}-{DateTime.Now.ToString("yyyy-MM-dd")}.{format.ToEnumMember()}"));
+            }
+
+            foreach(var path in paths)
+            {
+                if (!File.Exists(path))
+                {
+                    if (!Directory.Exists(userPath))
+                    {
+                        Directory.CreateDirectory(userPath);
+                    }
+                    File.Create(path).Close();
+                }
             }
         }
         public ILogger Critical(string message)
         {
-            var logMessage = logger.GenerateMessage("critical", message, format);
-            logger.Log(logMessage, path);
+            foreach (var path in paths)
+            {
+                var logMessage = logger.GenerateMessage("critical", message, EnumExtensions.ToEnum<BradysFormatProvider>(Path.GetExtension(path)));
+                logger.Log(logMessage, path);
+            }
             return logger;
         }
 
         public ILogger Debug(string message)
         {
-            var logMessage = logger.GenerateMessage("debug", message, format);
-            logger.Log(logMessage, path);
+            foreach (var path in paths)
+            {
+                var logMessage = logger.GenerateMessage("debug", message, EnumExtensions.ToEnum<BradysFormatProvider>(Path.GetExtension(path)));
+                logger.Log(logMessage, path);
+            }
             return logger;
         }
 
         public ILogger Error(string message)
         {
-            var logMessage = logger.GenerateMessage("Error", message, format);
-            logger.Log(logMessage, path);
+            foreach (var path in paths)
+            {
+                var logMessage = logger.GenerateMessage("error", message, EnumExtensions.ToEnum<BradysFormatProvider>(Path.GetExtension(path)));
+                logger.Log(logMessage, path);
+            }
             return logger;
         }
 
         public ILogger Exception(string message)
         {
-            var logMessage = logger.GenerateMessage("Exception", message, format);
-            logger.Log(logMessage, path);
+            foreach (var path in paths)
+            {
+                var logMessage = logger.GenerateMessage("exception", message, EnumExtensions.ToEnum<BradysFormatProvider>(Path.GetExtension(path)));
+                logger.Log(logMessage, path);
+            }
             return logger;
         }
 
         public ILogger Info(string message)
         {
-            var logMessage = logger.GenerateMessage("info", message, format);
-            logger.Log(logMessage, path);
+            foreach (var path in paths)
+            {
+                var logMessage = logger.GenerateMessage("info", message, EnumExtensions.ToEnum<BradysFormatProvider>(Path.GetExtension(path)));
+                logger.Log(logMessage, path);
+            }
             return logger;
         }
 
         public ILogger Notice(string message)
         {
-            var logMessage = logger.GenerateMessage("notice", message, format);
-            logger.Log(logMessage, path);
+            foreach (var path in paths)
+            {
+                var logMessage = logger.GenerateMessage("notice", message, EnumExtensions.ToEnum<BradysFormatProvider>(Path.GetExtension(path)));
+                logger.Log(logMessage, path);
+            }
             return logger;
         }
 
         public ILogger Success(string message)
         {
-            var logMessage = logger.GenerateMessage("success", message, format);
-            logger.Log(logMessage, path);
+            foreach (var path in paths)
+            {
+                var logMessage = logger.GenerateMessage("success", message, EnumExtensions.ToEnum<BradysFormatProvider>(Path.GetExtension(path)));
+                logger.Log(logMessage, path);
+            }
             return logger;
         }
 
         public ILogger Trace(string message)
         {
-            var logMessage = logger.GenerateMessage("trace", message, format);
-            logger.Log(logMessage, path);
+            foreach (var path in paths)
+            {
+                var logMessage = logger.GenerateMessage("trace", message, EnumExtensions.ToEnum<BradysFormatProvider>(Path.GetExtension(path)));
+                logger.Log(logMessage, path);
+            }
             return logger;
         }
 
         public ILogger Warning(string message)
         {
-            var logMessage = logger.GenerateMessage("warning", message, format);
-            logger.Log(logMessage, path);
+            foreach (var path in paths)
+            {
+                var logMessage = logger.GenerateMessage("warning", message, EnumExtensions.ToEnum<BradysFormatProvider>(Path.GetExtension(path)));
+                logger.Log(logMessage, path);
+            }
             return logger;
         }
     }
