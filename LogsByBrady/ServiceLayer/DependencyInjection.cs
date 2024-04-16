@@ -1,6 +1,7 @@
 ﻿using LogsByBrady.Enums;
 using LogsByBrady.FlatFile;
 using LogsByBrady.Interfaces;
+using LogsByBrady.Sql;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -10,7 +11,17 @@ namespace LogsByBrady
     public static class DependencyInjection
     {
         internal static BradysLoggerSettings _bls;
+        internal static BradysSqlLoggerSettings _bsls;
 
+        /// <summary>
+        /// Specify connection string to connect and log to.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="connectionString">desiered connection string to db</param>
+        public static void WithConnectionString(this IServiceCollection services, string connectionString)
+        {
+            _bls.Format = BradysFormatProvider.Json;
+        }
         /// <summary>
         /// Add the BradysLogger to the service collection.
         /// </summary>
@@ -25,6 +36,22 @@ namespace LogsByBrady
             };
             _bls = blsValues;
             services.AddScoped<IBradysLogger, FileLogging>(); // register deps
+            return services;
+        }
+        /// <summary>
+        /// Add the BradysLogger to the service collection.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="bls">logger settings to specify connection string</param>
+        /// <returns></returns>
+        public static IServiceCollection AddBradysLogger(this IServiceCollection services, Action<BradysSqlLoggerSettings> bls)
+        {
+            _bsls = new BradysSqlLoggerSettings();
+            bls.Invoke(_bsls);
+            SqlLogging.ConnectionString = _bsls.ConnectionString;
+            SqlLogging.CreateLogsTable();
+            //var sqlLogger = new SqlLogging(_bsls.ConnectionString);
+            services.AddScoped<IBradysLogger, SqlLogging>(); // register deps
             return services;
         }
         /// <summary>
@@ -74,6 +101,12 @@ namespace LogsByBrady
     {
         public string Path { get; set; }
         public BradysFormatProvider Format { get; set; } = BradysFormatProvider.Text;
+
+    }
+    public class BradysSqlLoggerSettings
+    {
+        public string ConnectionString { get; set; }
+        //public BradysFormatProvider Format { get; set; } = BradysFormatProvider.Text;
 
     }
 }
