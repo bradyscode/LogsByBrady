@@ -22,6 +22,6 @@ jobs:
     - name: Pack
       run: dotnet pack --configuration Release /p:Version=${VERSION} --no-build --output .
     - name: Push
-      run: dotnet nuget push LogsByBrady.${VERSION}.nupkg -s https://api.nuget.org/v3/index.json --api-key ${{secrets.NUGET_API_KEY}}
+      run: dotnet nuget push LogsByBrady.${VERSION}.nupkg -s https://api.nuget.org/v2/package --api-key ${{secrets.NUGET_API_KEY}}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
