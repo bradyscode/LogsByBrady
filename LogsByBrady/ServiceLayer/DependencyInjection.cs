@@ -46,7 +46,7 @@ namespace LogsByBrady
             return services;
         }
         /// <summary>
-        /// Uses json format for log files.
+        /// Uses all format options for log files.
         /// </summary>
         /// <param name="services"></param>
         public static IServiceCollection UsingAllFormats(this IServiceCollection services)

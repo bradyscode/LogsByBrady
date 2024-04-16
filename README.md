@@ -23,3 +23,8 @@ Using JsonFormat will set the log format to `json` format
 .UsingTxtFormat();
 ```
 Using JsonFormat will set the log format to `txt` format
+
+```cs
+.UsingAllFormats();
+```
+Uses all format options for log files.
