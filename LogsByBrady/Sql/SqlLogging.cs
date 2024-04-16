@@ -11,48 +11,56 @@ namespace LogsByBrady.Sql
 
         public ILogger Critical(string message)
         {
-            logger.Log(logger.GenerateMessage("Critical", message, BradysFormatProvider.Text), ConnectionString);
+            logger.Log(logger.GenerateMessage("critical", message, BradysFormatProvider.Text), ConnectionString);
             return logger;
         }
 
         public ILogger Debug(string message)
         {
-            throw new NotImplementedException();
+            logger.Log(logger.GenerateMessage("debug", message, BradysFormatProvider.Text), ConnectionString);
+            return logger;
         }
 
         public ILogger Error(string message)
         {
-            throw new NotImplementedException();
+            logger.Log(logger.GenerateMessage("error", message, BradysFormatProvider.Text), ConnectionString);
+            return logger;
         }
 
         public ILogger Exception(string message)
         {
-            throw new NotImplementedException();
+            logger.Log(logger.GenerateMessage("exception", message, BradysFormatProvider.Text), ConnectionString);
+            return logger;
         }
 
         public ILogger Info(string message)
         {
-            throw new NotImplementedException();
+            logger.Log(logger.GenerateMessage("information", message, BradysFormatProvider.Text), ConnectionString);
+            return logger;
         }
 
         public ILogger Notice(string message)
         {
-            throw new NotImplementedException();
+            logger.Log(logger.GenerateMessage("notice", message, BradysFormatProvider.Text), ConnectionString);
+            return logger;
         }
 
         public ILogger Success(string message)
         {
-            throw new NotImplementedException();
+            logger.Log(logger.GenerateMessage("success", message, BradysFormatProvider.Text), ConnectionString);
+            return logger;
         }
 
         public ILogger Trace(string message)
         {
-            throw new NotImplementedException();
+            logger.Log(logger.GenerateMessage("trace", message, BradysFormatProvider.Text), ConnectionString);
+            return logger;
         }
 
         public ILogger Warning(string message)
         {
-            throw new NotImplementedException();
+            logger.Log(logger.GenerateMessage("warning", message, BradysFormatProvider.Text), ConnectionString);
+            return logger;
         }
 
         internal static void CreateLogsTable()
