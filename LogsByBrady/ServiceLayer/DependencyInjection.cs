@@ -46,12 +46,21 @@ namespace LogsByBrady
         /// <returns></returns>
         public static IServiceCollection AddBradysLogger(this IServiceCollection services, Action<BradysSqlLoggerSettings> bls)
         {
-            _bsls = new BradysSqlLoggerSettings();
-            bls.Invoke(_bsls);
-            SqlLogging.ConnectionString = _bsls.ConnectionString;
-            SqlLogging.CreateLogsTable();
-            //var sqlLogger = new SqlLogging(_bsls.ConnectionString);
-            services.AddScoped<IBradysLogger, SqlLogging>(); // register deps
+            try
+            {
+                _bsls = new BradysSqlLoggerSettings();
+                bls.Invoke(_bsls);
+                SqlLogging.ConnectionString = _bsls.ConnectionString;
+                SqlLogging.CreateLogsTable();
+                //var sqlLogger = new SqlLogging(_bsls.ConnectionString);
+                services.AddScoped<IBradysLogger, SqlLogging>(); // register deps
+            }catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine("Setting up file logger");
+                AddBradysLogger(services);
+            }
+
             return services;
         }
         /// <summary>
