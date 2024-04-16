@@ -2,7 +2,10 @@
 ### Preview
 LogsByBrady is a all-in-one logging framework that includes logging functionality for flat files in different formats. Future versions of LogsByBrady will include logging for other logging locations such as SQL Server.
 
+# Flat Files
+
 ## Dependency Injection (DI)
+
 ```cs
 builder.Services.AddBradysLogger()
 ```
@@ -28,3 +31,16 @@ Using JsonFormat will set the log format to `txt` format
 .UsingAllFormats();
 ```
 Uses all format options for log files.
+
+
+# SQL Server Logging
+
+## Dependency Injection (DI)
+
+```cs
+builder.Services.AddBradysLogger(option =>
+{
+    option.ConnectionString = "";
+});
+```
+This will inject logger into the program using and automatically create a logs table in the database.
