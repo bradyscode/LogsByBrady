@@ -14,7 +14,7 @@ namespace LogsByBrady.Sql
             return new LogModel()
             {
                 DateAndTime = System.DateTime.UtcNow,
-                LogLevel = logLevel,
+                LogLevel = logLevel.ToUpper(),
                 Message = message
             };
         }
