@@ -81,6 +81,7 @@ namespace LogsByBrady.Sql
 
                     try
                     {
+                        // Execute the create table query
                         createTableCommand.ExecuteNonQuery();
                         Console.WriteLine("Logs table created successfully!");
                     }
@@ -92,6 +93,21 @@ namespace LogsByBrady.Sql
                 else
                 {
                     Console.WriteLine("Logs table already exists.");
+
+                    // Delete records older than one week
+                    string deleteOldLogsQuery = "DELETE FROM Logs WHERE LogDate < DATEADD(DAY, -7, GETDATE())";
+                    SqlCommand deleteOldLogsCommand = new SqlCommand(deleteOldLogsQuery, connection);
+
+                    try
+                    {
+                        // Execute the delete query
+                        int rowsAffected = deleteOldLogsCommand.ExecuteNonQuery();
+                        Console.WriteLine($"{rowsAffected} old log(s) deleted.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error deleting old logs: " + ex.Message);
+                    }
                 }
             }
         }
