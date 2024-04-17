@@ -14,12 +14,16 @@ namespace LogsByBrady.FlatFile
 
         public object GenerateMessage(string logLevel, string message, BradysFormatProvider bradysFormatProvider)
         {
+            var methodInfo = new StackTrace().GetFrame(2)?.GetMethod();
+            var className = methodInfo?.ReflectedType?.Name;
             if (bradysFormatProvider == BradysFormatProvider.Json)
             {
                 var logModel = new LogModel
                 {
                     Message = message,
-                    LogLevel = logLevel.ToUpper()
+                    LogLevel = logLevel.ToUpper(),
+                    CallingClass = className,
+                    CallingProject = Assembly.GetEntryAssembly()?.GetName().Name
                 };
                 var options = new JsonSerializerOptions()
                 {
@@ -28,7 +32,7 @@ namespace LogsByBrady.FlatFile
                 var jsonString = JsonSerializer.Serialize(logModel, options);
                 return jsonString + ",";
             }
-            var returnMessage = $"[{logLevel.ToUpper()}] - [{DateTime.UtcNow}] : {message}";
+            var returnMessage = $"[{logLevel.ToUpper()}] [{className}]- [{DateTime.UtcNow}] : {message}";
             return returnMessage;
         }
         public async Task Log(object message, string path)

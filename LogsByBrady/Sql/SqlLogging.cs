@@ -81,6 +81,8 @@ namespace LogsByBrady.Sql
                     CREATE TABLE Logs (
                         LogID INT IDENTITY(1,1) PRIMARY KEY,
                         LogDate DATETIME,
+                        LoggingClass NVARCHAR(100),
+                        LogProject NVARCHAR(100),
                         LogLevel NVARCHAR(20),
                         LogMessage NVARCHAR(MAX)
                     )";

@@ -11,5 +11,7 @@ namespace LogsByBrady.Models
         public string? Message { get; set; }
         public DateTime DateAndTime { get; set; } = DateTime.UtcNow;
         public string? LogLevel { get; set; }
+        public string? CallingClass { get; set; }
+        public string? CallingProject { get; set; }
     }
 }
