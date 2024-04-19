@@ -84,6 +84,7 @@ namespace LogsByBrady.Sql
                         LoggingClass NVARCHAR(100),
                         LogProject NVARCHAR(100),
                         LogLevel NVARCHAR(20),
+                        ThreadId INT,
                         LogMessage NVARCHAR(MAX)
                     )";
 

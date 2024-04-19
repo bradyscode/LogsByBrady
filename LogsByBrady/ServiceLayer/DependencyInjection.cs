@@ -54,7 +54,8 @@ namespace LogsByBrady
                 SqlLogging.CreateLogsTable();
                 //var sqlLogger = new SqlLogging(_bsls.ConnectionString);
                 services.AddScoped<IBradysLogger, SqlLogging>(); // register deps
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 Console.WriteLine("Setting up file logger");
