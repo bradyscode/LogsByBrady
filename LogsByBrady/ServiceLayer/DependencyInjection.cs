@@ -46,15 +46,14 @@ namespace LogsByBrady
         /// <param name="services"></param>
         /// <param name="bls">logger settings to specify connection string</param>
         /// <returns></returns>
-        public static IServiceCollection AddBradysLogger(this IServiceCollection services, Action<BradysSqlLoggerSettings> bls)
+        public static IServiceCollection AddBradysSqlLogger(this IServiceCollection services, Action<BradysSqlLoggerSettings> bls)
         {
             try
             {
                 _bsls = new BradysSqlLoggerSettings();
                 bls.Invoke(_bsls);
-                new SqlLogging(_bsls.ConnectionString);
-                //var sqlLogger = new SqlLogging(_bsls.ConnectionString);
-                services.AddScoped<IBradysLogger, SqlLogging>(); // register deps
+                var sqlLogger = new SqlLogging(_bsls.ConnectionString);
+                services.AddScoped<IBradysLogger>(provider => sqlLogger);// register deps
             }
             catch (Exception e)
             {
