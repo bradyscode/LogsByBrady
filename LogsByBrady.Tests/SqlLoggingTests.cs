@@ -18,9 +18,7 @@ namespace LogsByBrady.Tests
         public async Task InitializeAsync()
         {
             await msSqlContainer.StartAsync();
-            sqlLogging = new SqlLogging();
-            sqlLogging.SetConnectionString(msSqlContainer.GetConnectionString());
-            SqlLogging.CreateLogsTable(msSqlContainer.GetConnectionString());
+            sqlLogging = new SqlLogging(msSqlContainer.GetConnectionString());
         }
 
         [Fact]

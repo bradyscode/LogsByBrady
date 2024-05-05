@@ -7,11 +7,16 @@ using Microsoft.IdentityModel.Abstractions;
 
 namespace LogsByBrady.Sql
 {
-    public class SqlLogging : IBradysLogger
+    public class SqlLogging : IBradysLogger, IDatabaseActions
     {
         ILogger logger = new SqlLogger();
         private string ConnectionString { get; set; }
 
+        public SqlLogging(string connectionString)
+        {
+            SetConnectionString(connectionString);
+            CreateLogsTable(ConnectionString!);
+        }
         public string GetConnectionString()
         {
             return ConnectionString;
@@ -87,7 +92,7 @@ namespace LogsByBrady.Sql
             }
         }
 
-        public static void CreateLogsTable(string connectionString)
+        private void CreateLogsTable(string connectionString)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

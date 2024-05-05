@@ -51,9 +51,7 @@ namespace LogsByBrady
             {
                 _bsls = new BradysSqlLoggerSettings();
                 bls.Invoke(_bsls);
-                var sqlLogger = new SqlLogging();
-                sqlLogger.SetConnectionString(_bsls.ConnectionString);
-                SqlLogging.CreateLogsTable(_bsls.ConnectionString);
+                IDatabaseActions sqlLogger = new SqlLogging(_bsls.ConnectionString);
                 //var sqlLogger = new SqlLogging(_bsls.ConnectionString);
                 services.AddScoped<IBradysLogger, SqlLogging>(); // register deps
             }
