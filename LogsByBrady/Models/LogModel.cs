@@ -10,11 +10,11 @@ namespace LogsByBrady.Models
 {
     public class LogModel
     {
-        public string? Message { get; set; }
+        public string? LogMessage { get; set; }
         public DateTime DateAndTime { get; set; } = DateTime.UtcNow;
         public string? LogLevel { get; set; }
-        public string? CallingClass { get; set; } = new StackTrace().GetFrame(2)?.GetMethod()?.ReflectedType?.Name;
-        public string? CallingProject { get; set; } = Assembly.GetEntryAssembly()?.GetName().Name;
+        public string? LoggingClass { get; set; } = new StackTrace().GetFrame(2)?.GetMethod()?.ReflectedType?.Name;
+        public string? LogProject { get; set; } = Assembly.GetEntryAssembly()?.GetName().Name;
         public int? ManagedThreadId { get; set; } = System.Threading.Thread.CurrentThread.ManagedThreadId;
     }
 }

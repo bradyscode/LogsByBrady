@@ -5,6 +5,7 @@ using LogsByBrady.Sql;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Windows.Markup;
 
 namespace LogsByBrady
 {
@@ -50,8 +51,9 @@ namespace LogsByBrady
             {
                 _bsls = new BradysSqlLoggerSettings();
                 bls.Invoke(_bsls);
-                SqlLogging.ConnectionString = _bsls.ConnectionString;
-                SqlLogging.CreateLogsTable();
+                var sqlLogger = new SqlLogging();
+                sqlLogger.SetConnectionString(_bsls.ConnectionString);
+                SqlLogging.CreateLogsTable(_bsls.ConnectionString);
                 //var sqlLogger = new SqlLogging(_bsls.ConnectionString);
                 services.AddScoped<IBradysLogger, SqlLogging>(); // register deps
             }

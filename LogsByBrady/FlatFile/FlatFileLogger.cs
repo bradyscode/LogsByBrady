@@ -16,7 +16,7 @@ namespace LogsByBrady.FlatFile
         {
             var logModel = new LogModel
             {
-                Message = message,
+                LogMessage = message,
                 LogLevel = logLevel.ToUpper(),
             };
             if (bradysFormatProvider == BradysFormatProvider.Json)
@@ -29,7 +29,7 @@ namespace LogsByBrady.FlatFile
                 var jsonString = JsonSerializer.Serialize(logModel, options);
                 return jsonString + ",";
             }
-            var returnMessage = $"[{logModel.LogLevel.ToUpper()}] {logModel.CallingProject}/{logModel.CallingClass} - [{DateTime.UtcNow}] Thread #: {logModel.ManagedThreadId} : {message}";
+            var returnMessage = $"[{logModel.LogLevel.ToUpper()}] {logModel.LogProject}/{logModel.LoggingClass} - [{DateTime.UtcNow}] Thread #: {logModel.ManagedThreadId} : {message}";
             return returnMessage;
         }
         public async Task Log(object message, string path)

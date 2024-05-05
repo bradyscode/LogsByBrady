@@ -1,14 +1,25 @@
 ﻿using LogsByBrady.Enums;
 using LogsByBrady.Interfaces;
+using LogsByBrady.Models;
 using Microsoft.Data.SqlClient;
+using Dapper;
+using Microsoft.IdentityModel.Abstractions;
 
 namespace LogsByBrady.Sql
 {
     public class SqlLogging : IBradysLogger
     {
         ILogger logger = new SqlLogger();
-        public static string ConnectionString { get; set; }
+        private string ConnectionString { get; set; }
 
+        public string GetConnectionString()
+        {
+            return ConnectionString;
+        }
+        public void SetConnectionString(string connectionString)
+        {
+            ConnectionString = connectionString;
+        }
         public ILogger Critical(string message)
         {
             logger.Log(logger.GenerateMessage("critical", message, BradysFormatProvider.Text), ConnectionString);
@@ -63,9 +74,22 @@ namespace LogsByBrady.Sql
             return logger;
         }
 
-        internal static void CreateLogsTable()
+        public async Task<List<LogModel>> GetLogs()
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                // Define your SQL query
+                string selectQuery = "SELECT * FROM Logs";
+                // Execute the query using Dapper
+                var logs = await connection.QueryAsync<LogModel>(selectQuery);
+                return logs.ToList();
+            }
+        }
+
+        public static void CreateLogsTable(string connectionString)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 // Check if the table already exists
                 string checkTableQuery = "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Logs'";

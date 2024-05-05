@@ -1,4 +1,5 @@
-﻿using LogsByBrady.Enums;
+﻿using Dapper;
+using LogsByBrady.Enums;
 using LogsByBrady.Interfaces;
 using LogsByBrady.Models;
 using Microsoft.Data.SqlClient;
@@ -18,8 +19,8 @@ namespace LogsByBrady.Sql
             {
                 DateAndTime = System.DateTime.UtcNow,
                 LogLevel = logLevel.ToUpper(),
-                Message = message, 
-                CallingClass = className
+                LogMessage = message, 
+                LoggingClass = className
             };
         }
 
@@ -32,18 +33,18 @@ namespace LogsByBrady.Sql
                 // Define your insert query for logs
                 string insertQuery = "INSERT INTO Logs (LogDate, LoggingClass, ThreadId, LogProject, LogLevel, LogMessage) VALUES (@LogDate, @LoggingClass, @ThreadId, @LogProject, @LogLevel, @LogMessage)";
 
-                SqlCommand command = new SqlCommand(insertQuery, connection);
-                command.Parameters.AddWithValue("@LogDate", DateTime.Now);
-                command.Parameters.AddWithValue("@LogLevel", loggingInfo.LogLevel);
-                command.Parameters.AddWithValue("@LoggingClass", loggingInfo.CallingClass);
-                command.Parameters.AddWithValue("@LogMessage", loggingInfo.Message);
-                command.Parameters.AddWithValue("@LogProject", loggingInfo.CallingProject);
-                command.Parameters.AddWithValue("@ThreadId", loggingInfo.ManagedThreadId);
+                var paramaters = new DynamicParameters();
+                paramaters.Add("@LogDate", DateTime.Now);
+                paramaters.Add("@LogLevel", loggingInfo.LogLevel);
+                paramaters.Add("@LoggingClass", loggingInfo.LoggingClass);
+                paramaters.Add("@LogMessage", loggingInfo.LogMessage);
+                paramaters.Add("@LogProject", loggingInfo.LogProject);
+                paramaters.Add("@ThreadId", loggingInfo.ManagedThreadId);
 
                 try
                 {
                     connection.Open();
-                    command.ExecuteNonQuery();
+                    connection.Execute(insertQuery, paramaters);
                     Console.WriteLine("Log inserted successfully!");
                 }
                 catch (Exception ex)
