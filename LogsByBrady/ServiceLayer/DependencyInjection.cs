@@ -1,6 +1,7 @@
 ﻿using LogsByBrady.Enums;
 using LogsByBrady.FlatFile;
 using LogsByBrady.Interfaces;
+using LogsByBrady.Models;
 using LogsByBrady.Sql;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -51,7 +52,7 @@ namespace LogsByBrady
             {
                 _bsls = new BradysSqlLoggerSettings();
                 bls.Invoke(_bsls);
-                IDatabaseActions sqlLogger = new SqlLogging(_bsls.ConnectionString);
+                new SqlLogging(_bsls.ConnectionString);
                 //var sqlLogger = new SqlLogging(_bsls.ConnectionString);
                 services.AddScoped<IBradysLogger, SqlLogging>(); // register deps
             }

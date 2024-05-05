@@ -7,81 +7,71 @@ using Microsoft.IdentityModel.Abstractions;
 
 namespace LogsByBrady.Sql
 {
-    public class SqlLogging : IBradysLogger, IDatabaseActions
+    public class SqlLogging : DatabaseLogging, IBradysLogger
     {
-        ILogger logger = new SqlLogger();
-        private string ConnectionString { get; set; }
-
         public SqlLogging(string connectionString)
         {
             SetConnectionString(connectionString);
-            CreateLogsTable(ConnectionString!);
+            CreateLogsTable(GetConnectionString());
         }
-        public string GetConnectionString()
-        {
-            return ConnectionString;
-        }
-        public void SetConnectionString(string connectionString)
-        {
-            ConnectionString = connectionString;
-        }
+        ILogger logger = new SqlLogger();
         public ILogger Critical(string message)
         {
-            logger.Log(logger.GenerateMessage("critical", message, BradysFormatProvider.Text), ConnectionString);
+            logger.Log(logger.GenerateMessage("critical", message, BradysFormatProvider.Text), GetConnectionString());
             return logger;
         }
 
         public ILogger Debug(string message)
         {
-            logger.Log(logger.GenerateMessage("debug", message, BradysFormatProvider.Text), ConnectionString);
+            logger.Log(logger.GenerateMessage("debug", message, BradysFormatProvider.Text), GetConnectionString());
             return logger;
         }
 
         public ILogger Error(string message)
         {
-            logger.Log(logger.GenerateMessage("error", message, BradysFormatProvider.Text), ConnectionString);
+            logger.Log(logger.GenerateMessage("error", message, BradysFormatProvider.Text), GetConnectionString());
             return logger;
         }
 
         public ILogger Exception(string message)
         {
-            logger.Log(logger.GenerateMessage("exception", message, BradysFormatProvider.Text), ConnectionString);
+            logger.Log(logger.GenerateMessage("exception", message, BradysFormatProvider.Text), GetConnectionString());
             return logger;
         }
 
         public ILogger Info(string message)
         {
-            logger.Log(logger.GenerateMessage("information", message, BradysFormatProvider.Text), ConnectionString);
+            logger.Log(logger.GenerateMessage("information", message, BradysFormatProvider.Text), GetConnectionString());
             return logger;
         }
 
         public ILogger Notice(string message)
         {
-            logger.Log(logger.GenerateMessage("notice", message, BradysFormatProvider.Text), ConnectionString);
+            logger.Log(logger.GenerateMessage("notice", message, BradysFormatProvider.Text), GetConnectionString());
             return logger;
         }
 
         public ILogger Success(string message)
         {
-            logger.Log(logger.GenerateMessage("success", message, BradysFormatProvider.Text), ConnectionString);
+            logger.Log(logger.GenerateMessage("success", message, BradysFormatProvider.Text), GetConnectionString());
             return logger;
         }
 
         public ILogger Trace(string message)
         {
-            logger.Log(logger.GenerateMessage("trace", message, BradysFormatProvider.Text), ConnectionString);
+            logger.Log(logger.GenerateMessage("trace", message, BradysFormatProvider.Text), GetConnectionString());
             return logger;
         }
 
         public ILogger Warning(string message)
         {
-            logger.Log(logger.GenerateMessage("warning", message, BradysFormatProvider.Text), ConnectionString);
+            logger.Log(logger.GenerateMessage("warning", message, BradysFormatProvider.Text), GetConnectionString());
             return logger;
         }
 
-        public async Task<List<LogModel>> GetLogs()
+        public override async Task<List<LogModel>> GetLogs()
         {
-            using (var connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(GetConnectionString()))
             {
                 connection.Open();
                 // Define your SQL query
@@ -92,7 +82,7 @@ namespace LogsByBrady.Sql
             }
         }
 
-        private void CreateLogsTable(string connectionString)
+        protected override void CreateLogsTable(string connectionString)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
