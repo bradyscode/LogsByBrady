@@ -46,3 +46,6 @@ builder.Services.AddBradysLogger(option =>
 });
 ```
 This will inject logger into the program using and automatically create a logs table in the database.
+
+# Roadmap
+## Postgres logging
